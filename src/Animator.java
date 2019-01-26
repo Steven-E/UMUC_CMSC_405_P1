@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 
+@SuppressWarnings("WeakerAccess")
 public class Animator extends JPanel{
 
     private int frameNumber;
@@ -30,8 +31,9 @@ public class Animator extends JPanel{
 
     public void start(){
 
+        String baseTitle = "CMSC 405 Project 1";
         JFrame window;
-        window = new JFrame("CMSC 405 Project 1");
+        window = new JFrame(baseTitle);
         Animator panel = new Animator();
         window.setContentPane(panel);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -45,14 +47,17 @@ public class Animator extends JPanel{
         final long startTime = System.currentTimeMillis();
 
         //original was 1600ms
-        animationTimer = new Timer(2000, e -> {
-            if(panel.frameNumber > 5){
+        animationTimer = new Timer(1500, e -> {
+            if(panel.frameNumber > transformFrames.length -1){
                 panel.frameNumber = 0;
             }else{
                 panel.frameNumber ++;
             }
 
             panel.elapsedTimeMillis = System.currentTimeMillis() - startTime;
+
+            window.setTitle(baseTitle + ", Frame: " + (panel.frameNumber+1) + ", Elapsed Time: " + panel.elapsedTimeMillis + " ms");
+
             panel.repaint();
         });
         window.setVisible(true);
@@ -66,8 +71,9 @@ public class Animator extends JPanel{
     //C. rot 90 clock
     //D. Scale 2x x, .5x y
 
+    //TODO: consider using a vector/list for this instead of an array
     private void setupFrames(){
-        transformFrames = new TransformAdjustment[5];
+        transformFrames = new TransformAdjustment[6];
         transformFrames[0] = null;
         transformFrames[1] = new TransformAdjustment(-5, 7,
                 0, 0, 0);
@@ -77,6 +83,8 @@ public class Animator extends JPanel{
                 getRotation(-90), 0, 0);
         transformFrames[4] = new TransformAdjustment(0, 0,
                 0, 2, .5);
+        transformFrames[5] = new TransformAdjustment(0, 0,
+                0, 1, 1);
     }
 
     protected void paintComponent(Graphics g){
