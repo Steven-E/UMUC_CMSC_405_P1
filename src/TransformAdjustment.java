@@ -1,9 +1,10 @@
+@SuppressWarnings("WeakerAccess")
 public class TransformAdjustment {
-    private int translateX = 0;
-    private int translateY = 0;
-    private double rotation = 0;
-    private double scaleX = 1;
-    private double scaleY = 1;
+    private int translateX;
+    private int translateY;
+    private double rotation;
+    private double scaleX;
+    private double scaleY;
 
     public TransformAdjustment(int translateX, int translateY, double rotation, double scaleX, double scaleY){
         this.translateX = translateX;
@@ -42,9 +43,9 @@ public class TransformAdjustment {
         double sy = this.scaleY ;
 
         if(requestedTransform != null) {
-            tx += requestedTransform.translateX;
-            ty += requestedTransform.translateY;
-            r += requestedTransform.rotation;
+            tx = requestedTransform.translateX != 0 ? tx + requestedTransform.translateX : tx;
+            ty = requestedTransform.translateY != 0 ? ty + requestedTransform.translateY : ty;
+            r = requestedTransform.rotation != 0 ? r + requestedTransform.rotation : r;
             sx = requestedTransform.scaleX > 0 ? requestedTransform.scaleX : sx;
             sy = requestedTransform.scaleY > 0 ? requestedTransform.scaleY : sy;
         }
